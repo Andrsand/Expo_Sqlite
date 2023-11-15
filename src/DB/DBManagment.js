@@ -21,6 +21,8 @@ export async function createDatabase(dbName) {
             )
         `);
     }), error => console.log(`create error: ${error}`);
+
+    console.log('table created');
 }
 
 export async function select(dbName) {
@@ -46,4 +48,12 @@ export async function insertInto(dbName, question = "", answer = "") {
         values ('${question}', '${answer}')
         `);
     }), error => console.log(`create error: ${error}`);
+}
+
+export async function deleteDB(dbName) {
+    const dbDir = FileSystem.documentDirectory + 'SQLite/';
+    const dirInfo = await FileSystem.getInfoAsync(dbDir + dbName);
+    if (dirInfo.exists) await FileSystem.deleteAsync(dbDir + dbName, { idempotent: true });
+
+    console.log('table deleted');
 }
