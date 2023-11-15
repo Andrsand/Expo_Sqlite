@@ -50,6 +50,16 @@ export async function insertInto(dbName, question = "", answer = "") {
     }), error => console.log(`create error: ${error}`);
 }
 
+export async function updateData(dbName, id, question = "", answer = "") {
+    const db = SQLite.openDatabase(dbName);
+    db.transaction(tx => {
+        tx.executeSql(`
+        UPDATE mytest SET question = "${question}", answer = "${answer}" 
+        WHERE id = "${id}"
+        `);
+    }), error => console.log(`create error: ${error}`);
+}
+
 export async function deleteDB(dbName) {
     const dbDir = FileSystem.documentDirectory + 'SQLite/';
     const dirInfo = await FileSystem.getInfoAsync(dbDir + dbName);
